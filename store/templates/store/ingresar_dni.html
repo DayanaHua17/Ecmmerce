@@ -1,0 +1,15 @@
+{% extends "store/base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Ingrese su DNI para ver su carrito de compras</h2>
+    <form method="post" action="{% url 'store:ver_carrito' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="dni">DNI:</label>
+            <input type="text" name="dni" id="dni" class="form-control" required maxlength="8" placeholder="Ingrese su DNI">
+        </div>
+        <button type="submit" class="btn btn-primary">Ingresar</button>
+    </form>
+</div>
+{% endblock %}

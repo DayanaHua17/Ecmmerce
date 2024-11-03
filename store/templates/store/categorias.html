@@ -1,0 +1,36 @@
+{% extends "store/base.html" %}
+
+{% block title %}Categorías - Mi Tienda{% endblock %}
+
+{% block content %}
+<h1>Categorías y sus Productos</h1>
+<div class="accordion" id="categoriasAccordion">
+    {% for categoria in categorias %}
+    <div class="card">
+        <div class="card-header" id="heading{{ categoria.id }}">
+            <h5 class="mb-0">
+                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse{{ categoria.id }}" aria-expanded="true" aria-controls="collapse{{ categoria.id }}">
+                    {{ categoria.nombre }}
+                </button>
+            </h5>
+        </div>
+
+        <div id="collapse{{ categoria.id }}" class="collapse" aria-labelledby="heading{{ categoria.id }}" data-parent="#categoriasAccordion">
+            <div class="card-body">
+                <p>{{ categoria.descripcion }}</p>
+                <ul>
+                    {% for producto in categoria.productos.all %}
+                    <li>
+                        <strong>{{ producto.nombre }}</strong> - ${{ producto.precio }}
+                        <p>{{ producto.descripcion }}</p>
+                    </li>
+                    {% empty %}
+                    <p>No hay productos en esta categoría.</p>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

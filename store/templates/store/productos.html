@@ -1,0 +1,25 @@
+{% extends "store/base.html" %}
+
+{% block title %}Productos - Mi Tienda{% endblock %}
+
+{% block content %}
+<h1>Lista de Productos</h1>
+<div class="row">
+    {% for producto in productos %}
+    <div class="col-md-4">
+        <div class="card mb-4 shadow-sm">
+            {% if producto.imagen %}
+                <img src="{{ producto.imagen.url }}" class="card-img-top" alt="{{ producto.nombre }}">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ producto.nombre }}</h5>
+                <p class="card-text">{{ producto.descripcion }}</p>
+                <p class="card-text"><strong>Precio:</strong> ${{ producto.precio }}</p>
+                <p class="card-text"><strong>Stock:</strong> {{ producto.stock }}</p>
+                <a href="{% url 'store:agregar_al_carrito' producto.id %}" class="btn btn-primary">Agregar al Carrito</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

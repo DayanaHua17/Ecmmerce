@@ -1,0 +1,29 @@
+{% extends "store/base_sesion.html" %}
+
+{% block content %}
+<h1>Gestión de Stock</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Producto</th>
+            <th>Stock Actual</th>
+            <th>Actualizar Stock</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for producto in productos %}
+        <tr>
+            <td>{{ producto.nombre }}</td>
+            <td>{{ producto.stock }}</td>
+            <td>
+                <form method="post" action="{% url 'store:actualizar_stock' producto.id %}">
+                    {% csrf_token %}
+                    <input type="number" name="nuevo_stock" min="0" class="form-control" placeholder="Nuevo Stock">
+                    <button type="submit" class="btn btn-primary mt-2">Actualizar</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

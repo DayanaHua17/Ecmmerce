@@ -1,0 +1,11 @@
+{% extends "store/base_sesion.html" %}
+
+{% block content %}
+<h2>Eliminar Carrito</h2>
+<p>¿Está seguro que desea eliminar el carrito con ID <strong>{{ carrito.id }}</strong>?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a href="{% url 'store:ver_carritos' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

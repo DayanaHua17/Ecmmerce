@@ -1,0 +1,39 @@
+{% extends "store/base_sesion.html" %}
+
+{% block content %}
+<h1>Gestionar Productos</h1>
+<a href="{% url 'store:agregar_producto' %}" class="btn btn-primary mb-2">Agregar Producto</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Imagen</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Precio</th>
+            <th>Stock</th>
+            <th>Categoría</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for producto in productos %}
+        <tr>
+            <td>
+                {% if producto.imagen %}
+                    <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" style="width: 100px; height: auto;">
+                {% endif %}
+            </td>
+            <td>{{ producto.nombre }}</td>
+            <td>{{ producto.descripcion }}</td>
+            <td>${{ producto.precio }}</td>
+            <td>{{ producto.stock }}</td>
+            <td>{{ producto.categoria.nombre }}</td>
+            <td>
+                <a href="{% url 'store:editar_producto' producto.id %}" class="btn btn-warning btn-sm">Editar</a>
+                <a href="{% url 'store:eliminar_producto' producto.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

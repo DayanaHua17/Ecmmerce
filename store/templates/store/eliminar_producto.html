@@ -1,0 +1,11 @@
+{% extends "store/base_sesion.html" %}
+
+{% block content %}
+<h1>¿Está seguro que desea eliminar este producto?</h1>
+<p><strong>{{ producto.nombre }}</strong></p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a href="{% url 'store:crud_productos' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

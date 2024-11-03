@@ -1,0 +1,74 @@
+{% extends "store/base.html" %}
+
+{% block content %}
+<h2>Carrito de Compras</h2>
+
+{% if error %}
+    <div class="alert alert-danger">
+        {{ error }}
+    </div>
+{% endif %}
+
+{% if dni_cliente %}
+    <p><strong>DNI del cliente:</strong> {{ dni_cliente }}</p>
+    <!-- Formulario para cambiar el DNI -->
+    <form method="post" action="{% url 'store:ver_carrito' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="dni">Cambiar DNI:</label>
+            <input type="text" name="dni" id="dni" class="form-control" required maxlength="8" placeholder="Ingrese nuevo DNI">
+        </div>
+        <button type="submit" class="btn btn-primary">Cambiar DNI</button>
+    </form>
+{% else %}
+    <!-- Formulario para ingresar el DNI inicial -->
+    <h4>Ingrese su DNI para ver los detalles de su carrito</h4>
+    <form method="post" action="{% url 'store:ver_carrito' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="dni">DNI:</label>
+            <input type="text" name="dni" id="dni" class="form-control" required maxlength="8" placeholder="Ingrese su DNI">
+        </div>
+        <button type="submit" class="btn btn-primary">Ingresar</button>
+    </form>
+{% endif %}
+
+<div class="container mt-4">
+    <div class="row">
+        {% for item in items %}
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <img src="{{ item.producto.imagen.url }}" class="card-img-top" alt="Imagen del producto">
+                <div class="card-body">
+                    <h5 class="card-title">{{ item.producto.nombre }}</h5>
+                    <p class="card-text"><strong>Precio:</strong> ${{ item.producto.precio }}</p>
+                    <p class="card-text"><strong>Cantidad:</strong> {{ item.cantidad }}</p>
+
+                    <!-- Formulario para actualizar la cantidad -->
+                    <form method="post" action="{% url 'store:actualizar_cantidad' item.id %}" class="form-inline mb-2">
+                        {% csrf_token %}
+                        <input type="number" name="cantidad" value="{{ item.cantidad }}" min="1" class="form-control mr-2">
+                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                    </form>
+
+                    <!-- Botón para eliminar el producto del carrito -->
+                    <form method="post" action="{% url 'store:eliminar_item' item.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if not items %}
+    <p>No hay productos en este carrito.</p>
+    {% endif %}
+
+    <!-- Mostrar el total del carrito -->
+    <div class="mt-4">
+        <h4>Total a pagar: ${{ total }}</h4>
+    </div>
+</div>
+{% endblock %}

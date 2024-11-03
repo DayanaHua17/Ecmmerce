@@ -1,0 +1,76 @@
+{% extends "store/base_sesion.html" %}
+
+{% block content %}
+<h2>Ver Carritos</h2>
+
+<!-- Sección de Búsqueda de Carritos por DNI -->
+<h4>Buscar Carrito por DNI</h4>
+<form method="get" action="{% url 'store:ver_carritos' %}" class="form-inline mb-4">
+    <div class="form-group mr-2">
+        <input type="text" name="dni" class="form-control" placeholder="Ingrese DNI" value="{{ dni_cliente }}">
+    </div>
+    <button type="submit" class="btn btn-primary">Buscar</button>
+</form>
+
+<!-- Mostrar los resultados de la búsqueda si existe -->
+{% if dni_cliente %}
+    <h5>Resultados de la búsqueda para DNI: {{ dni_cliente }}</h5>
+    {% if carritos %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID del Carrito</th>
+                    <th>DNI del Cliente</th>
+                    <th>Total de Productos</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for carrito in carritos %}
+                <tr>
+                    <td>{{ carrito.id }}</td>
+                    <td>{{ carrito.dni_cliente }}</td>
+                    <td>{{ carrito.items.count }}</td>
+                    <td>
+                        {% if carrito.dni_cliente %}
+                            <a href="{% url 'store:ver_carrito_dni' carrito.dni_cliente %}" class="btn btn-info btn-sm">Ver Detalles</a>
+                        {% endif %}
+                        <a href="{% url 'store:eliminar_carrito' carrito.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No se encontró ningún carrito con el DNI proporcionado.</p>
+    {% endif %}
+{% endif %}
+
+<!-- Sección de Todos los Carritos -->
+<h4>Todos los Carritos Generados</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID del Carrito</th>
+            <th>DNI del Cliente</th>
+            <th>Total de Productos</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for carrito in carritos %}
+        <tr>
+            <td>{{ carrito.id }}</td>
+            <td>{{ carrito.dni_cliente }}</td>
+            <td>{{ carrito.items.count }}</td>
+            <td>
+                {% if carrito.dni_cliente %}
+                    <a href="{% url 'store:ver_carrito_dni' carrito.dni_cliente %}" class="btn btn-info btn-sm">Ver Detalles</a>
+                {% endif %}
+                <a href="{% url 'store:eliminar_carrito' carrito.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

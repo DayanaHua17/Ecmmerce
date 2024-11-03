@@ -1,0 +1,33 @@
+{% extends "store/base_sesion.html" %}
+
+{% block content %}
+<h2>Detalles del Carrito para DNI: {{ carrito.dni_cliente }}</h2>
+
+<div class="container mt-4">
+    <div class="row">
+        {% for item in items %}
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <!-- Mostrar la imagen del producto -->
+                <img src="{{ item.producto.imagen.url }}" class="card-img-top img-fluid" style="max-height: 150px; max-width: 150px; object-fit: cover;" alt="Imagen de {{ item.producto.nombre }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ item.producto.nombre }}</h5>
+                    <p class="card-text"><strong>Precio:</strong> ${{ item.producto.precio }}</p>
+                    <p class="card-text"><strong>Cantidad:</strong> {{ item.cantidad }}</p>
+                    <p class="card-text"><strong>Subtotal:</strong> ${{ item.producto.precio|floatformat:2|add:item.cantidad }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if not items %}
+    <p>No hay productos en este carrito.</p>
+    {% endif %}
+
+    <!-- Mostrar el total del carrito -->
+    <div class="mt-4">
+        <h4>Total a pagar: ${{ total }}</h4>
+    </div>
+</div>
+{% endblock %}

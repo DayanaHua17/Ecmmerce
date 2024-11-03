@@ -1,0 +1,11 @@
+{% extends "store/base_sesion.html" %}
+
+{% block content %}
+<h1>Editar Producto</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Guardar Cambios</button>
+    <a href="{% url 'store:crud_productos' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}
